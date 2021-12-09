@@ -1,16 +1,8 @@
-# Galexia Creative Agency Ltd Nuxt Boilerplate
+# Solent Referencing
 
-> A boilerplate Nuxt repository
+> An application to help students reference
 
-## Get started
-
-1. Do a find and replace for 'REPLACE' filling in with company information.
-
-2. Go to [Real Favicon Generator](https://realfavicongenerator.net/) and create icons and configs.
-
-3. Head to [Style Guide Creator](style-guide-creator.joebailey.xyz) and choose the fonts and colors. Then copy the relevant Nuxt code.
-
-4. Update Cookie Banner colours
+[![Netlify Status](https://api.netlify.com/api/v1/badges/af001a7e-b071-4501-9464-4d9130e367f6/deploy-status)](https://app.netlify.com/sites/solent-referencing/deploys)
 
 ## Build Setup
 
@@ -24,5 +16,3 @@ $ npm run start
 # generate static project
 $ npm run generate
 ```
-
-For detailed explanation on how things work, check out [Galexia docs](https://docs.galexia.agency).
