@@ -7,7 +7,6 @@
 <template>
   <div class="maxWidth">
     <h1>Welcome!</h1>
-    <p>You can get started by heading to <a href="https://docs.galexia.agency">Galexia Docs</a></p>
   </div>
 </template>
 
@@ -17,16 +16,12 @@ export default {
     return {
       title: 'Home',
       meta: [
-        { hid: 'description', name: 'description', content: 'REPLACE' },
+        { hid: 'description', name: 'description', content: 'Solent Referencing Application' },
         { hid: 'og:title', property: 'og:title', content: 'Home' },
-        { hid: 'og:description', property: 'og:description', content: 'REPLACE' },
-        { hid: 'og:image', property: 'og:image', content: 'REPLACE' },
+        { hid: 'og:description', property: 'og:description', content: 'Solent Referencing Application' },
+        { hid: 'og:image', property: 'og:image', content: 'Solent Referencing Application' },
         { hid: 'twitter:title', name: 'twitter:title', content: 'Home' },
-        { hid: 'twitter:description', name: 'twitter:description', content: 'REPLACE' },
-        { hid: 'twitter:img', name: 'twitter:img', content: 'REPLACE' }
-      ],
-      link: [
-        { hid: 'canonical', rel: 'canonical', href: 'REPLACE' }
+        { hid: 'twitter:description', name: 'twitter:description', content: 'Solent Referencing Application' }
       ]
     }
   }

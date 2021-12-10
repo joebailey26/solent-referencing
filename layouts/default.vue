@@ -149,7 +149,7 @@
           </p>
         </template>
       </CookieControl>
-      <p>© {{ new Date().getFullYear() }} REPLACE. Website by <a href="https://galexia.agency">Galexia Creative Agency Ltd</a></p>
+      <p>© {{ new Date().getFullYear() }} Solent Referencing Application. Website by <a href="https://joebailey.xyz">Joe Bailey</a></p>
     </footer>
   </div>
 </template>
