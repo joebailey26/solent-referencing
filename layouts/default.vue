@@ -1,10 +1,24 @@
 
 <style>
-  :focus:not(:focus-visible) {
-    outline: none
+  :root {
+    --primaryColor: #D70612;
+    --secondaryColor: #2B3594;
+    --tertiaryColor: #33373C;
+    --primaryFont: bliss, calibri, trebuchet ms, sans-serif;
+    --borderRadius: 0;
+    --fontSize: 16px
   }
   body {
+    font-family: var(--primaryFont);
+    color: var(--tertiaryColor);
+    line-height: 1.75;
+    font-weight: 300;
+    text-underline-offset: .125em;
+    text-decoration-thickness: .0625em;
     overflow: hidden
+  }
+  :focus:not(:focus-visible) {
+    outline: none
   }
   .maxWidth {
     padding: 2rem;
@@ -15,6 +29,11 @@
     color: var(--primaryColor);
     font-weight: bold;
     text-decoration: none
+  }
+
+  /* Cookie Bar */
+  .cookieControl__Bar {
+    font-family: var(--primaryFont)
   }
 
   /* Nav */
@@ -104,7 +123,7 @@
       <nav class="nav maxWidth">
         <div class="logo--container">
           <nuxt-link class="logo" to="/">
-            <img src="icon.png">
+            <img src="../assets/img/main-logo.png">
           </nuxt-link>
         </div>
         <div class="nav--icon">

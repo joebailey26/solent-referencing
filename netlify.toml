@@ -3,12 +3,6 @@
   publish = "dist"
 
 [[redirects]]
-  from = "https://REPLACE.netlify.app/*"
-  to = "https://REPLACE/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
   from = "/index.html" 
   to = "/"
   status = 301

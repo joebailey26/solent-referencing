@@ -1,7 +1,7 @@
 {
-  "name": "REPLACE",
+  "name": "solent-referencing-application",
   "version": "1.0.0",
-  "description": "REPLACE",
+  "description": "Solent Referencing Application",
   "author": "Galexia Creative Agency Ltd",
   "private": true,
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@aceforth/nuxt-optimized-images": "^1.3.0",
-    "@netlify/plugin-sitemap": "^0.5.1",
+    "@netlify/plugin-sitemap": "^0.8.1",
     "@nuxtjs/pwa": "^3.3.2",
     "imagemin-mozjpeg": "^9.0.0",
     "imagemin-pngquant": "^9.0.1",

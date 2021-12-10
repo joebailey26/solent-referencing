@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://REPLACE/sitemap.xml.gz
+Sitemap: https://solent-referencing.netlify.app/sitemap.xml.gz
