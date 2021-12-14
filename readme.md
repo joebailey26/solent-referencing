@@ -1,4 +1,4 @@
-# Solent Referencing
+# Solent Referencing Application
 
 > An application to help students reference
 
