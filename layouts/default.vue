@@ -74,7 +74,12 @@
     display: none
   }
   main {
-    min-height: 70vh
+    min-height: 75vh
+  }
+  section {
+    max-width: min(1376px, calc(100vw - 4rem));
+    margin: auto;
+    padding: 40px 2rem
   }
 
   @media (max-width: 768px) {
@@ -133,6 +138,15 @@
           <nuxt-link to="/" class="nav--link">
             Home
           </nuxt-link>
+          <nuxt-link to="/citations" class="nav--link">
+            My Citations
+          </nuxt-link>
+          <a v-if="supabaseLoggedIn" href="javascript:void(0)" class="nav--link" @click="logout">
+            Log Out
+          </a>
+          <nuxt-link v-else to="login" class="nav--link">
+            Login / Sign Up
+          </nuxt-link>
         </div>
       </nav>
     </header>
@@ -140,26 +154,27 @@
       <nuxt keep-alive />
     </main>
     <footer class="maxWidth">
-      <CookieControl>
-        <template v-slot:bar>
-          <p>
-            We use cookies and other tracking technologies to improve your browsing experience on our site, analyze site traffic, and understand where our audience is coming from. To find out more, please read our <nuxt-link to="/legal/cookie-policy/">
-              Cookie Policy
-            </nuxt-link>.
-          </p>
-        </template>
-      </CookieControl>
-      <p>© {{ new Date().getFullYear() }} Solent Referencing Application. Website by <a href="https://joebailey.xyz">Joe Bailey</a></p>
+      <p>© {{ new Date().getFullYear() }} Solent Referencing Application. By <a href="https://joebailey.xyz">Joe Bailey.</a></p>
     </footer>
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
+
 export default {
   data () {
     return {
       motion: 'auto'
     }
+  },
+  computed: {
+    ...mapState([
+      'loggedIn'
+    ]),
+    ...mapGetters([
+      'supabaseLoggedIn'
+    ])
   },
   watch: {
     $route () {
@@ -169,31 +184,11 @@ export default {
       }, 1000)
     }
   },
-  async beforeMount () {
-    if (await this.WebpIsSupported()) {} else {
-      document.querySelector('body').classList.add('no-webp')
-    }
-  },
   async mounted () {
     document.documentElement.classList.add('nav_close')
     this.motion = await window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
   },
   methods: {
-    async WebpIsSupported () {
-      // If the browser doesn't have the method createImageBitmap, you can't display webp format
-      if (!self.createImageBitmap) {
-        return false
-      }
-
-      // Base64 representation of a white point image
-      const webpData = 'data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoCAAEAAQAcJaQAA3AA/v3AgAA='
-
-      // Retrieve the Image in Blob Format
-      const blob = await fetch(webpData).then(r => r.blob())
-
-      // If the createImageBitmap method succeeds, return true, otherwise false
-      return createImageBitmap(blob).then(() => true, () => false)
-    },
     nav () {
       if (document.documentElement.classList.contains('nav_open')) {
         document.documentElement.classList.remove('nav_open')
@@ -206,6 +201,9 @@ export default {
           document.documentElement.classList.add('nav_open')
         }, 1)
       }
+    },
+    async logout () {
+      await this.$store.dispatch('logout')
     }
   }
 }

@@ -1,6 +1,7 @@
 [build]
   command = "npm run generate --no-optional"
   publish = "dist"
+  functions = "functions"
 
 [[redirects]]
   from = "/index.html" 

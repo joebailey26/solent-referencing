@@ -38,7 +38,11 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: false,
+  loading: {
+    color: 'var(--primaryColor)',
+    height: '3px',
+    continuous: true
+  },
   /*
    ** Global CSS
    */
@@ -53,6 +57,8 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [
+    // Doc: https://vuetifyjs.com/en/getting-started/
+    '@nuxtjs/vuetify',
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/stylelint-module
@@ -62,76 +68,9 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    ['nuxt-cookie-control', {
-      colors: {
-        barTextColor: 'var(--tertiaryColor)',
-        barBackground: '#FFF',
-        barButtonColor: '#FFF',
-        barButtonHoverBackground: 'var(--secondaryColor)',
-        barButtonBackground: 'var(--primaryColor)',
-        modalOverlay: 'var(--tertiaryColor)',
-        modalButtonBackground: 'var(--primaryColor)',
-        modalButtonHoverBackground: 'var(--secondaryColor)',
-        checkboxActiveBackground: 'var(--primaryColor)',
-        checkboxInactiveBackground: '#d7061250',
-        checkboxDisabledBackground: '#d7061299',
-        checkboxActiveCircleBackground: '#FFF',
-        controlButtonIconColor: 'var(--primaryColor)',
-        controlButtonIconHoverColor: '#FFF',
-        controlButtonHoverBackground: 'var(--primaryColor)'
-      }
-    }],
-    '@aceforth/nuxt-optimized-images',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/axios'
   ],
-  cookies: {
-    necessary: [
-      {
-        name: 'Default Cookies',
-        description: 'Used for cookie control (cannot be disabled).',
-        cookies: ['cookie_control_consent', 'cookie_control_enabled_cookies']
-      }
-    ],
-    optional: [
-      {
-        name: 'Google Analytics',
-        description: 'Google Analytics is a web analytics service offered by Google that tracks and reports website traffic.',
-        src: 'https://www.googletagmanager.com/gtag/js?id=UA-140457046-4',
-        async: true,
-        cookies: ['_ga', '_gat', '_gid'],
-        accepted: () => {
-          window.dataLayer = window.dataLayer || []
-          function gtag () {
-            window.dataLayer.push(arguments)
-          }
-          gtag('set', 'anonymizeIp', true)
-          gtag('js', new Date())
-          gtag('config', 'UA-140457046-4', { anonymize_ip: true })
-        },
-        declined: () => {}
-      }
-    ]
-  },
-  optimizedImages: {
-    optimizeImages: true,
-    optimizeImagesInDev: false,
-    mozjpeg: {
-      quality: 70
-    },
-    pngquant: {
-      stripe: true
-    },
-    webp: {
-      quality: 70
-    },
-    svgo: {
-      plugins: [
-        { reusePaths: true },
-        { removeOffCanvasPaths: true },
-        { removeScriptElement: true }
-      ]
-    }
-  },
   generate: {
     fallback: true
   },
