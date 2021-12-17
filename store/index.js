@@ -1,49 +1,145 @@
-import createPersistedState from 'vuex-persistedstate'
 import { createClient } from '@supabase/supabase-js'
+import { getItemById, getListById, getListByItemId } from '~/utils/board'
+import { makeItem, makeList } from '~/utils/data'
 const supabase = createClient('https://csuundbzryyxvxgthqgy.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzOTEzMjA0MCwiZXhwIjoxOTU0NzA4MDQwfQ.YHvLdGynUYZYLYS5Eqofozz0tgJPuwnqoEHEoSV1-BA')
 
 export const actions = {
   async supabaseLogin ({ commit }, { email, password }) {
-    const supabaseAuth = await supabase.auth.signIn({
+    const supabaseVue = await supabase.auth.signIn({
       email,
       password
     })
-    commit('supabaseAuth', supabaseAuth)
+    if (supabaseVue.error) {
+      throw supabaseVue.error
+    }
+    commit('checkLoggedIn')
   },
   async supabaseLogout ({ commit }) {
-    const supabaseAuth = await supabase.auth.signOut()
-    commit('supabaseAuth', supabaseAuth)
+    const supabaseVue = await supabase.auth.signOut()
+    if (supabaseVue.error) {
+      throw supabaseVue.error
+    }
+    commit('logout')
+    commit('checkLoggedIn')
+  },
+  addList ({ commit }, { title }) {
+    commit('addList', { title })
+  },
+  editList ({ commit }, { title, id }) {
+    commit('editList', { title, id })
+  },
+  moveList ({ commit }, [fromIndex, toIndex]) {
+    commit('moveList', [fromIndex, toIndex])
+  },
+  removeList ({ commit }, { listId }) {
+    commit('removeList', { listId })
+  },
+  addItem ({ commit }, data) {
+    commit('addItem', data)
+  },
+  updateItem ({ commit }, data) {
+    commit('updateItem', data)
+  },
+  moveItem ({ commit }, [fromListRef, fromIndex, toListRef, toIndex]) {
+    commit('moveItem', [fromListRef, fromIndex, toListRef, toIndex])
+  },
+  removeItem ({ commit }, { itemId }) {
+    commit('removeItem', { itemId })
   }
 }
 
 export const mutations = {
-  supabaseAuth (state, { user, session, error }) {
-    state.auth.user = user
-    state.auth.session = session
-    state.auth.error = error
+  checkLoggedIn (state) {
+    if (supabase.auth.user()) {
+      state.loggedIn = true
+    } else {
+      state.loggedIn = false
+    }
+  },
+  logout (state) {
+    state.citations = []
+  },
+  error (state, data) {
+    if (data.active !== undefined) {
+      state.error.active = data.active
+    } else {
+      // eslint-disable-next-line no-console
+      console.error(data.description)
+      state.error.active = true
+    }
+    state.error.description = data.description
+    state.error.data = data.data
+  },
+  addList (state, { title }) {
+    state.citations.push(makeList(title))
+  },
+  editList (state, { title, id }) {
+    state.citations.find(citation => citation.id === id).title = title
+  },
+  moveList (state, [fromIndex, toIndex]) {
+    state.citations.splice(toIndex, 0, state.citations.splice(fromIndex, 1)[0])
+  },
+  removeList (state, { listId }) {
+    state.citations = state.citations.filter(citation => citation.id !== listId)
+  },
+  addItem (state, { listId, url, title, publisher, author, description, date, dateRetrieved }) {
+    let list
+    if (listId) {
+      list = getListById(state.citations, listId)
+    } else {
+      const newList = makeList('References')
+      state.citations.push(newList)
+      list = getListById(state.citations, newList.id)
+    }
+    list.items.push(makeItem(url, title, publisher, author, description, date, dateRetrieved))
+  },
+  updateItem (state, { itemId, title, description, date, createdDate }) {
+    const item = getItemById(state.citations, itemId)
+    const updatedDate = Date.now()
+    if (item) {
+      Object.assign(item, makeItem(title, description, date, createdDate, updatedDate, itemId))
+    }
+  },
+  moveItem (state, [projectId, fromListRef, fromIndex, toListRef, toIndex]) {
+    const fromList = typeof fromListRef === 'number'
+      ? state.citations[fromListRef].items
+      : getListById(projectId, fromListRef)
+    const toList = typeof toListRef === 'number'
+      ? state.citations[toListRef].items
+      : getListById(projectId, toListRef)
+    toList.splice(toIndex, 0, fromList.splice(fromIndex, 1)[0])
+  },
+  removeItem (state, { itemId }) {
+    const list = getListByItemId(state.citations, itemId)
+    list.items.splice(list.items.findIndex(item => item.id === itemId), 1)
   }
 }
 
 export const getters = {
-  supabaseLoggedIn () {
-    return supabase.auth.user()
+  getListById: state => (listId) => {
+    return getListById(state.citations, listId)
+  },
+
+  getListByItemId: state => (itemId) => {
+    return getListByItemId(state.citations, itemId)
+  },
+
+  getItemById: state => (itemId) => {
+    return getItemById(state.citations, itemId)
   }
 }
 
 export const state = () => ({
-  auth: {}
+  loggedIn: false,
+  citations: [],
+  error: {
+    active: false
+  }
 })
-
-let plugins
-
-if (process.env.NODE_ENV === 'production') {
-  plugins = [createPersistedState]
-}
 
 export default {
   actions,
   mutations,
   getters,
-  state,
-  plugins
+  state
 }

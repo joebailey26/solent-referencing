@@ -1,5 +1,6 @@
 export default {
   target: 'static',
+  ssr: false,
   /*
    ** Headers of the page
    */
@@ -39,7 +40,7 @@ export default {
    ** Customize the progress-bar color
    */
   loading: {
-    color: 'var(--primaryColor)',
+    color: 'var(--secondaryColor)',
     height: '3px',
     continuous: true
   },
@@ -47,18 +48,21 @@ export default {
    ** Global CSS
    */
   css: [
-    '@assets/css/font-loader.css'
+    '@assets/css/font-loader.css',
+    'bulma'
   ],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+    '~plugins/board',
+    '~plugins/fontAwesome.js',
+    '~/plugins/persistedState.client.js'
+  ],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
-    // Doc: https://vuetifyjs.com/en/getting-started/
-    '@nuxtjs/vuetify',
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/stylelint-module

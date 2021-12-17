@@ -11,54 +11,37 @@
 <template>
   <section>
     <div class="login">
-      <v-tabs v-model="tabs" grow>
-        <v-tab>Login</v-tab>
-        <v-tab>Sign Up</v-tab>
-      </v-tabs>
-      <v-tabs-items v-model="tabs" align-with-title class="login-form">
-        <v-tab-item>
-          <v-form v-model="valid">
-            <v-text-field
-              v-model="email"
-              :rules="emailRules"
-              label="E-mail"
-              required
-              type="email"
-            />
-            <v-text-field
-              v-model="password"
-              :rules="passwordRules"
-              label="Password"
-              required
-              type="password"
-            />
-            <v-btn @click="login">
-              Login
-            </v-btn>
-          </v-form>
-        </v-tab-item>
-        <v-tab-item>
-          <v-form v-model="valid">
-            <v-text-field
-              v-model="email"
-              :rules="emailRules"
-              label="E-mail"
-              required
-              type="email"
-            />
-            <v-text-field
-              v-model="password"
-              :rules="passwordRules"
-              label="Password"
-              required
-              type="password"
-            />
-            <v-btn @click="signUp">
-              Sign Up
-            </v-btn>
-          </v-form>
-        </v-tab-item>
-      </v-tabs-items>
+      <div id="tabs" class="tabs is-toggle is-fullwidth">
+        <ul>
+          <li class="is-active" data-tab="1">
+            <a>Login</a>
+          </li>
+          <li data-tab="2">
+            <a>Sign Up</a>
+          </li>
+        </ul>
+      </div>
+      <div class="tab-content">
+        <form @submit.prevent="login">
+          <ui-input
+            v-model="email"
+            :rules="emailRules"
+            label="E-mail"
+            required
+            type="email"
+          />
+          <ui-input
+            v-model="password"
+            :rules="passwordRules"
+            label="Password"
+            required
+            type="password"
+          />
+          <button type="submit">
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   </section>
 </template>
@@ -80,16 +63,37 @@ export default {
       ]
     }
   },
+  beforeMount () {
+    if (this.$store.state.loggedIn) {
+      this.$router.push('citations')
+    }
+  },
   methods: {
-    login () {
-      const email = this.email
-      const password = this.password
-      this.$store.dispatch('supabaseLogin', { email, password })
+    async login () {
+      try {
+        this.$nuxt.$loading.start()
+        await this.$store.dispatch('supabaseLogin', { email: this.email, password: this.password })
+        this.$nuxt.$loading.finish()
+        this.$router.push('citations')
+      } catch (e) {
+        this.$nuxt.$loading.finish()
+        const error = {}
+        error.description = e
+        this.$store.commit('error', error)
+      }
     },
-    signUp () {
-      const email = this.email
-      const password = this.password
-      this.$store.dispatch('supabaseSignUp', { email, password })
+    async signUp () {
+      try {
+        this.$nuxt.$loading.start()
+        await this.$store.dispatch('supabaseSignUp', { email: this.email, password: this.password })
+        this.$nuxt.$loading.finish()
+        this.$router.push('citations')
+      } catch (e) {
+        this.$nuxt.$loading.finish()
+        const error = {}
+        error.description = e
+        this.$store.commit('error', error)
+      }
     }
   },
   head () {

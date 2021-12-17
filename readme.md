@@ -10,8 +10,11 @@
 # install dependencies
 $ npm install
 
-# serve with hot reload at localhost:3000
-$ npm run start
+# install Netlify CLI
+$ npm i netlify-cli -g
+
+# serve with hot reload at localhost:8888
+$ netlify dev
 
 # generate static project
 $ npm run generate
