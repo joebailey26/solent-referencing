@@ -14,6 +14,15 @@ export const actions = {
     }
     commit('checkLoggedIn')
   },
+  async supabaseSignUp ({ commit }, { email, password }) {
+    const supabaseVue = await supabase.auth.signUp({
+      email,
+      password
+    })
+    if (supabaseVue.error) {
+      throw supabaseVue.error
+    }
+  },
   async supabaseLogout ({ commit }) {
     const supabaseVue = await supabase.auth.signOut()
     if (supabaseVue.error) {
@@ -50,6 +59,8 @@ export const actions = {
 
 export const mutations = {
   checkLoggedIn (state) {
+    console.log(new Date())
+    console.log(supabase.auth.user())
     if (supabase.auth.user()) {
       state.loggedIn = true
     } else {

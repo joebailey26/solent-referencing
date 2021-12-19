@@ -88,6 +88,9 @@ export default {
       url: ''
     }
   },
+  mounted () {
+    this.$store.commit('checkLoggedIn')
+  },
   head () {
     return {
       title: 'Home',

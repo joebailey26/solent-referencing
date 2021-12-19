@@ -229,6 +229,9 @@ export default {
       return window.matchMedia('(hover: none)').matches
     }
   },
+  mounted () {
+    this.$store.commit('checkLoggedIn')
+  },
   methods: {
     vibrate (num) {
       if ('vibrate' in navigator) {

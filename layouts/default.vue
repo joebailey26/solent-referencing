@@ -291,9 +291,6 @@ export default {
       }, 1000)
     }
   },
-  beforeMount () {
-    this.$store.commit('checkLoggedIn')
-  },
   async mounted () {
     document.documentElement.classList.add('nav_close')
     this.motion = await window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
