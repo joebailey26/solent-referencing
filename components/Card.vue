@@ -3,15 +3,10 @@
   .card {
     position: relative;
     border-radius: 3px;
-    cursor: move;
-    .item-title {
-      max-width: 80%
-    }
+    cursor: move
   }
   .icons {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    float: right;
     cursor: pointer;
     display: grid;
     grid-gap: .5rem;
@@ -31,10 +26,11 @@
     color: #DDDDDD
   }
   .icon-edit {
-    display: none;
+    opacity: 0;
     margin-right: -5px;
+    transition: opacity .25s ease-in-out;
     .card:hover & {
-      display: block
+      opacity: 1
     }
   }
   i {

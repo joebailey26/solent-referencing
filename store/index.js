@@ -102,11 +102,10 @@ export const mutations = {
     }
     list.items.push(makeItem(url, title, publisher, author, description, date, dateRetrieved))
   },
-  updateItem (state, { itemId, title, description, date, createdDate }) {
-    const item = getItemById(state.citations, itemId)
-    const updatedDate = Date.now()
+  updateItem (state, { id, url, title, publisher, author, description, date, dateRetrieved }) {
+    const item = getItemById(state.citations, id)
     if (item) {
-      Object.assign(item, makeItem(title, description, date, createdDate, updatedDate, itemId))
+      Object.assign(item, makeItem(url, title, publisher, author, description, date, dateRetrieved))
     }
   },
   moveItem (state, [projectId, fromListRef, fromIndex, toListRef, toIndex]) {
