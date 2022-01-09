@@ -4,11 +4,13 @@
       v-model="url"
       label="URL"
       type="url"
+      required
     />
     <ui-input
       v-model="title"
       label="Title"
       type="text"
+      required
     />
     <ui-input
       v-model="publisher"
@@ -19,6 +21,7 @@
       v-model="author"
       label="Author"
       type="text"
+      required
     />
     <ui-input
       v-model="description"
@@ -29,11 +32,13 @@
       v-model="date"
       label="Date Published"
       type="date"
+      required
     />
     <ui-input
       v-model="dateRetrieved"
       label="Date Retrieved"
       type="date"
+      required
     />
     <button v-if="!id" type="submit">
       Add
