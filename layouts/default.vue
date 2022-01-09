@@ -244,7 +244,7 @@
     <main>
       <nuxt keep-alive />
       <ui-modal
-        ref="modal"
+        ref="citeModal"
         :active="citeModal"
         @close="hideCiteModal"
       >

@@ -54,15 +54,15 @@
 <template>
   <div class="card" :data-id="item.id">
     <div class="icons">
-      <span class="icon icon-edit" @click="quickCite">
+      <a href="javascript:void(0)" title="Quick Cite" class="icon icon-edit" @click="quickCite">
         <font-awesome-icon icon="copy" />
-      </span>
-      <span class="icon icon-edit" @click="edit">
+      </a>
+      <a href="javascript:void(0)" title="Edit" class="icon icon-edit" @click="edit">
         <font-awesome-icon icon="edit" />
-      </span>
-      <span class="icon icon-edit" @click="remove">
+      </a>
+      <a href="javascript:void(0)" title="Delete" class="icon icon-edit" @click="remove">
         <font-awesome-icon icon="times" />
-      </span>
+      </a>
     </div>
     <p v-if="item.title" class="item-title" v-text="item.title" />
   </div>

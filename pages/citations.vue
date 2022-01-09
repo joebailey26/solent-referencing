@@ -117,6 +117,9 @@
       display: inline
     }
   }
+  #quickCiteText {
+    user-select: all
+  }
 </style>
 
 <template>
@@ -183,6 +186,17 @@
       </div>
     </div>
     <ui-confirm ref="confirm" />
+    <ui-modal
+      ref="quickCiteModal"
+      :active="quickCiteModal"
+      :cancellable="1"
+      @close="hideQuickCiteModal"
+    >
+      <div class="quickCite">
+        <h3 id="quickCiteText" v-text="cite" />
+        <p>The citation has been copied to your clipboard!</p>
+      </div>
+    </ui-modal>
   </section>
 </template>
 
@@ -218,7 +232,9 @@ export default {
     return {
       modal: false,
       activeListId: null,
-      dragging: true
+      dragging: true,
+      cite: null,
+      quickCiteModal: false
     }
   },
   computed: {
@@ -258,21 +274,34 @@ export default {
     },
     quickCite (item) {
       let cite
-      if (item.author && item.author.contains(' ')) {
-        cite = item.author.split(' ')[1]
+      if (item.author) {
+        if (item.author.includes(' ')) {
+          cite = item.author.split(' ')[1]
+        } else {
+          cite = item.author
+        }
       } else {
         const error = {}
         error.description = 'No author for citation'
         this.$store.commit('error', error)
       }
-      if (item.date && item.date.contains('-')) {
-        cite = cite + item.date.split('-')[0]
+      if (item.date && String(item.date).includes('-')) {
+        cite = '(' + cite + ' ' + item.date.split('-')[0] + ')'
+        navigator.clipboard.writeText(cite)
+        this.showQuickCiteModal(cite)
       } else {
         const error = {}
         error.description = 'No date for citation'
         this.$store.commit('error', error)
       }
-      navigator.clipboard.writeText(cite)
+    },
+    showQuickCiteModal (cite) {
+      this.cite = cite
+      this.quickCiteModal = true
+    },
+    hideQuickCiteModal () {
+      this.cite = null
+      this.quickCiteModal = false
     },
     editItem (item) {
       this.dragging = false
