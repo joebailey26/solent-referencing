@@ -4,9 +4,6 @@
     overflow-x: auto
   }
   $column-width: 320px;
-  .smooth-dnd-draggable-wrapper:last-of-type {
-    margin-right: .75rem
-  }
   .smooth-dnd-draggable-wrapper .list-container {
     padding-bottom: 0
   }
@@ -117,8 +114,18 @@
       display: inline
     }
   }
-  #quickCiteText {
-    user-select: all
+  .quickCiteText {
+    user-select: all;
+    background-color: #EDEDED;
+    border-radius: .75rem;
+    padding: .5rem
+  }
+  .copyText {
+    font-size: .9em
+  }
+  .referenceButton {
+    width: 100%;
+    text-align: center
   }
 </style>
 
@@ -173,6 +180,9 @@
                     icon="search"
                     @enter="$parent.$parent.search"
                   />
+                  <button v-if="citation.items.length > 0" type="button" class="referenceButton" @click="createReferenceList(citation.id)">
+                    Create Reference List
+                  </button>
                 </div>
               </div>
             </Draggable>
@@ -193,8 +203,23 @@
       @close="hideQuickCiteModal"
     >
       <div class="quickCite">
-        <h3 id="quickCiteText" v-text="cite" />
-        <p>The citation has been copied to your clipboard!</p>
+        <h3 class="quickCiteText" v-text="cite" />
+        <p class="copyText">
+          The citation has been copied to your clipboard!
+        </p>
+      </div>
+    </ui-modal>
+    <ui-modal
+      ref="referencesModal"
+      :active="referencesModal"
+      :cancellable="1"
+      @close="hideReferencesModal"
+    >
+      <div>
+        <p class="quickCiteText" v-text="references" />
+        <p class="copyText">
+          The Reference List has been copied to your clipboard!
+        </p>
       </div>
     </ui-modal>
   </section>
@@ -234,7 +259,9 @@ export default {
       activeListId: null,
       dragging: true,
       cite: null,
-      quickCiteModal: false
+      quickCiteModal: false,
+      references: null,
+      referencesModal: false
     }
   },
   computed: {
@@ -333,6 +360,27 @@ export default {
       if (index > -1) {
         this.$refs.list[index].querySelector('input').focus()
       }
+    },
+    createReferenceList (id) {
+      const citations = this.$store.getters.getListById(id)
+      let references = ''
+      for (const citation in citations.items) {
+        if (citations.items[citation].author.includes(' ')) {
+          references = references + citations.items[citation].author.split(' ')[1] + citations.items[citation].author.split(' ')[0].charAt(0) + '., '
+        } else {
+          references = references + citations.items[citation].author + ', '
+        }
+        references = references + citations.items[citation].date.split('-')[0] + '. ' + citations.items[citation].title + ' [viewed ' + citations.items[citation].dateRetrieved + ']. Available from: ' + citations.items[citation].url + '\n'
+      }
+      this.showReferencesModal(references)
+    },
+    showReferencesModal (references) {
+      this.references = references
+      this.referencesModal = true
+    },
+    hideReferencesModal () {
+      this.references = null
+      this.referencesModal = false
     }
   }
 }
