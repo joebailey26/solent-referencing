@@ -59,8 +59,6 @@ export const actions = {
 
 export const mutations = {
   checkLoggedIn (state) {
-    console.log(new Date())
-    console.log(supabase.auth.user())
     if (supabase.auth.user()) {
       state.loggedIn = true
     } else {

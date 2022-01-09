@@ -324,17 +324,17 @@ export default {
         this.$store.commit('error', error)
       }
     },
-    async search (data) {
+    async search ({ text, listId }) {
       let url
       try {
-        url = new URL(data.url)
+        url = new URL(text)
         const meta = await this.$axios.post(window.location.origin + '/.netlify/functions/parseURL',
           {
             url
           }
         )
         meta.data.dateRetrieved = new Date().toISOString().substr(0, 10)
-        meta.data.listId = data.listId
+        meta.data.listId = listId
         this.showCiteModal(meta.data)
       } catch (e) {
         const error = {}

@@ -61,7 +61,7 @@ export default {
       if (this.input) {
         this.$emit('enter', {
           listId: this.listId,
-          url: this.input
+          text: this.input
         })
         this.input = ''
       }
