@@ -20,7 +20,13 @@ https://blog.planview.com/top-6-software-development-methodologies/
 
 https://www.researchgate.net/publication/229046039_Personal_Extreme_Programming-An_Agile_Process_for_Autonomous_Developers
 
+### Methods
+
 ## Conclusion/Results
+
+In order to properly analyse our solution, we sought real user feedback. A Google Form was used to collect quantitative data on the success of our solution. We tried very hard to ask non-biased questions and provoke thought among the respondents.
+
+Looking forward, if the project were to continue, analytics could be placed within the application itself to generate real-world data. This data would tell us the what and how of users. To go one step further, we could harvest the emails used to generate logins and send a mailer with a more qualititave survey. This will get us data on how users feel about the application and whether it is actually improving their ability to reference. We may also get feedback on needed features, which we could then implement.
 
 Google Form
 
