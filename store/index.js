@@ -31,6 +31,13 @@ export const actions = {
     commit('logout')
     commit('checkLoggedIn')
   },
+  async pullReferences ({commit}) {
+    const data = await supabase.from('User References Data').select('references')
+    commit('putReferences', data)
+  },
+  async updateReferences ({}, data) {
+    await supabase.from('User References Data').update({'references': data})
+  },
   addList ({ commit }, { title }) {
     commit('addList', { title })
   },
@@ -58,6 +65,9 @@ export const actions = {
 }
 
 export const mutations = {
+  putReferences (state, {data}) {
+    state.citations = data
+  },
   checkLoggedIn (state) {
     if (supabase.auth.user()) {
       state.loggedIn = true
