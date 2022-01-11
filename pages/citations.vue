@@ -118,7 +118,8 @@
     user-select: all;
     background-color: #EDEDED;
     border-radius: .75rem;
-    padding: .5rem
+    padding: .5rem;
+    white-space: pre-wrap
   }
   .copyText {
     font-size: .9em
@@ -372,12 +373,13 @@ export default {
       let references = ''
       for (const citation in citations.items) {
         if (citations.items[citation].author.includes(' ')) {
-          references = references + citations.items[citation].author.split(' ')[1] + citations.items[citation].author.split(' ')[0].charAt(0) + '., '
+          references = references + citations.items[citation].author.split(' ')[1] + ' ' + citations.items[citation].author.split(' ')[0].charAt(0) + '., '
         } else {
           references = references + citations.items[citation].author + ', '
         }
         references = references + citations.items[citation].date.split('-')[0] + '. ' + citations.items[citation].title + ' [viewed ' + citations.items[citation].dateRetrieved + ']. Available from: ' + citations.items[citation].url + '\n'
       }
+      navigator.clipboard.writeText(references)
       this.showReferencesModal(references)
     },
     showReferencesModal (references) {

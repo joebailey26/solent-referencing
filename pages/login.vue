@@ -44,7 +44,7 @@ export default {
   },
   beforeMount () {
     if (this.$store.state.loggedIn) {
-      this.$router.push('citations')
+      this.$router.push('/citations')
     }
   },
   mounted () {
@@ -62,7 +62,7 @@ export default {
         this.$nuxt.$loading.start()
         await this.$store.dispatch('supabaseLogin', { email: this.email, password: this.password })
         this.$nuxt.$loading.finish()
-        this.$router.push('citations')
+        this.$router.push('/citations')
       } catch (e) {
         this.$nuxt.$loading.finish()
         const error = {}

@@ -317,7 +317,7 @@ export default {
     async logout () {
       try {
         await this.$store.dispatch('supabaseLogout')
-        this.$router.push('login')
+        this.$router.push('/login')
       } catch (e) {
         const error = {}
         error.description = e
@@ -365,7 +365,7 @@ export default {
         error.data = item
         this.$store.commit('error', error)
       }
-      this.$router.push('citations')
+      this.$router.push('/citations')
     }
   }
 }
