@@ -4,7 +4,7 @@ import { makeItem, makeList } from '~/utils/data'
 const supabase = createClient('https://csuundbzryyxvxgthqgy.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzOTEzMjA0MCwiZXhwIjoxOTU0NzA4MDQwfQ.YHvLdGynUYZYLYS5Eqofozz0tgJPuwnqoEHEoSV1-BA')
 
 export const actions = {
-  async supabaseLogin ({ commit }, { email, password }) {
+  async supabaseLogin ({ dispatch }, { email, password }) {
     const supabaseVue = await supabase.auth.signIn({
       email,
       password
@@ -12,7 +12,7 @@ export const actions = {
     if (supabaseVue.error) {
       throw supabaseVue.error
     }
-    commit('checkLoggedIn')
+    dispatch('checkLoggedIn')
   },
   async supabaseSignUp ({ commit }, { email, password }) {
     const supabaseVue = await supabase.auth.signUp({
@@ -23,49 +23,63 @@ export const actions = {
       throw supabaseVue.error
     }
   },
-  async supabaseLogout ({ commit }) {
+  async supabaseLogout ({ commit, dispatch }) {
     const supabaseVue = await supabase.auth.signOut()
     if (supabaseVue.error) {
       throw supabaseVue.error
     }
     commit('logout')
+    dispatch('checkLoggedIn')
+  },
+  checkLoggedIn ({ commit, dispatch, state }) {
     commit('checkLoggedIn')
+    if (state.loggedIn === true) {
+      dispatch('pullReferences')
+    }
   },
-  async pullReferences ({commit}) {
-    const data = await supabase.from('User References Data').select('references')
-    commit('putReferences', data)
+  async pullReferences ({ commit }) {
+    const data = await supabase.from('user-references-data').select('references')
+    commit('putReferences', data.data[0].references)
   },
-  async updateReferences ({}, data) {
-    await supabase.from('User References Data').update({'references': data})
+  async updateReferences ({ state }) {
+    await supabase.from('user-references-data').upsert({ id: supabase.auth.user().id, references: state.citations }, { returning: 'minimal' })
   },
-  addList ({ commit }, { title }) {
-    commit('addList', { title })
+  async addList ({ commit, dispatch }, { title }) {
+    await commit('addList', { title })
+    dispatch('updateReferences')
   },
-  editList ({ commit }, { title, id }) {
-    commit('editList', { title, id })
+  async editList ({ commit, dispatch }, { title, id }) {
+    await commit('editList', { title, id })
+    dispatch('updateReferences')
   },
-  moveList ({ commit }, [fromIndex, toIndex]) {
-    commit('moveList', [fromIndex, toIndex])
+  async moveList ({ commit, dispatch }, [fromIndex, toIndex]) {
+    await commit('moveList', [fromIndex, toIndex])
+    dispatch('updateReferences')
   },
-  removeList ({ commit }, { listId }) {
-    commit('removeList', { listId })
+  async removeList ({ commit, dispatch }, { listId }) {
+    await commit('removeList', { listId })
+    dispatch('updateReferences')
   },
-  addItem ({ commit }, data) {
-    commit('addItem', data)
+  async addItem ({ commit, dispatch }, data) {
+    await commit('addItem', data)
+    dispatch('updateReferences')
   },
-  updateItem ({ commit }, data) {
-    commit('updateItem', data)
+  async updateItem ({ commit, dispatch }, data) {
+    await commit('updateItem', data)
+    dispatch('updateReferences')
   },
-  moveItem ({ commit }, [fromListRef, fromIndex, toListRef, toIndex]) {
-    commit('moveItem', [fromListRef, fromIndex, toListRef, toIndex])
+  async moveItem ({ commit, dispatch }, [fromListRef, fromIndex, toListRef, toIndex]) {
+    await commit('moveItem', [fromListRef, fromIndex, toListRef, toIndex])
+    dispatch('updateReferences')
   },
-  removeItem ({ commit }, { itemId }) {
-    commit('removeItem', { itemId })
+  async removeItem ({ commit, dispatch }, { itemId }) {
+    await commit('removeItem', { itemId })
+    dispatch('updateReferences')
   }
 }
 
 export const mutations = {
-  putReferences (state, {data}) {
+  putReferences (state, data) {
     state.citations = data
   },
   checkLoggedIn (state) {

@@ -48,7 +48,13 @@ export default {
     }
   },
   mounted () {
-    this.$store.commit('checkLoggedIn')
+    try {
+      this.$store.dispatch('checkLoggedIn')
+    } catch (e) {
+      const error = {}
+      error.description = e
+      this.$store.commit('error', error)
+    }
   },
   methods: {
     async login () {

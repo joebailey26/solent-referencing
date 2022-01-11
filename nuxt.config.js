@@ -42,7 +42,8 @@ export default {
   loading: {
     color: 'var(--secondaryColor)',
     height: '3px',
-    continuous: true
+    continuous: true,
+    duration: 10000
   },
   /*
    ** Global CSS
