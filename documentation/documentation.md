@@ -50,9 +50,18 @@ To develop the Solent Referencing Application, a Scrum methodology approach was 
 
 ## Collecting Feedback
 
-In order to properly analyse our solution, we sought real user feedback. A Google Form was used to collect quantitative data on the success of our solution. We tried very hard to ask non-biased questions and provoke thought among the respondents.
+In order to properly analyse our solution, we sought real user feedback. A [Google Form](https://docs.google.com/forms/d/e/1FAIpQLScibp7HcAz3AgfUstusCtt82h29oOB9XNpeTYxUayedXwc2QQ/viewform?usp=sf_link) was used to collect quantitative data on the success of our solution. We tried very hard to ask non-biased questions and provoke thought among the respondents. [Research has shown](https://survicate.com/surveys/more-survey-respondents/) that surveys of a short length collect the most responses, so whilst this did hinder our ability to ask long questions, we did get a large sample size of answers to the questions that we did ask.
 
 ![Google Form](google_form.png)
+![Google Form Results](results1.png)
+We can see that more than 55% of respondents accessed the application on a mobile device. This corresponds with [worldwide research](https://radar.cloudflare.com/) on how people access the web. The application was built in a responsive fashion to best serve all users.
+![Google Form Results](results2.png)
+Most people liked the design of the application which has taken inspiration from [Solent University's own website](https://www.solent.ac.uk/). Design is subjective, but focus groups could help define what students don't like about the current design.
+![Google Form Results](results3.png)
+A few errors were reported by users which is really good feedback on what steps to focus on next. This is discussed more in the conclusion.
+![Google Form Results](results4.png)
+![Google Form Results](results5.png)
+Most users found the application useful and would recommend the application to their peers which suggests its use in the university could grow exponentially and be an extremely good investment by the university.
 
 We also had one session sitting with a participant using the application for their essay. The participant is a second year student at Southampton Solent so was perfect to test out the application. They brought to attention some small errors which wouldn't have been caught otherwise. They first tried signing up, however, the application URL wasn't registered in Supabase, only the localhost, so the confirmation email they received did not work. Once they were able to login, Nuxt router tried to push the route on top of the existing page rather than at the root of the document, so they ended up seeing a 404. When generating a reference list, it didn't automatically get copied, there was no space between the author first name and last name, and there were no line breaks between each reference.
 
